@@ -17,34 +17,42 @@ export const goods = [
 ];
 
 export const App = () => {
-  const [value, setValue] = useState('Jam');
+  const [selectedGood, setSelectedGood] = useState('Jam');
 
   return (
     <main className="section container">
       <h1 className="title is-flex is-align-items-center">
-        {value ? `${value} is selected` : 'No goods selected'}
-        {value && (<button
-          data-cy="ClearButton"
-          type="button"
-          className="delete ml-3"
-          onClick={() => setValue('')}
-        />)}
+        {selectedGood
+          ? `${selectedGood} is selected`
+          : 'No goods selected'}
+
+        {selectedGood && (
+          <button
+            data-cy="ClearButton"
+            type="button"
+            className="delete ml-3"
+            onClick={() => setSelectedGood('')}
+          />
+        )}
       </h1>
 
       <table className="table">
         <tbody>
-          {goods.map(item => (
+          {goods.map(good => (
             <tr
-              key={item}
+              key={good}
               data-cy="Good"
-              className={classNames({ "has-background-success-light": item === value })} >
+              className={classNames({
+                'has-background-success-light': good === selectedGood,
+              })}
+            >
               <td>
-                {item === value ? (
+                {good === selectedGood ? (
                   <button
                     data-cy="RemoveButton"
                     type="button"
                     className="button is-info"
-                    onClick={() => setValue('')}
+                    onClick={() => setSelectedGood('')}
                   >
                     -
                   </button>
@@ -53,7 +61,7 @@ export const App = () => {
                     data-cy="AddButton"
                     type="button"
                     className="button is-info"
-                    onClick={() => setValue(item)}
+                    onClick={() => setSelectedGood(good)}
                   >
                     +
                   </button>
@@ -61,12 +69,12 @@ export const App = () => {
               </td>
 
               <td data-cy="GoodTitle" className="is-vcentered">
-                {item}
+                {good}
               </td>
             </tr>
           ))}
         </tbody>
-
       </table>
-    </main >);
+    </main>
+  );
 };
